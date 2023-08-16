@@ -24,4 +24,4 @@ class Player(Turtle):
         if self.ycor() > FINISH_LINE_Y:
             return True
         else:
-            return False 
+            return False

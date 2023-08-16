@@ -6,8 +6,8 @@ import time
 
 screen = Screen()
 screen.setup(width=600, height=600)
-screen.bgcolor('black')
-screen.title('Snake Game')
+screen.bgcolor("black")
+screen.title("Snake Game")
 screen.tracer(0)
 
 snake = Snake()
@@ -35,7 +35,12 @@ while is_game_on:
         snake.extend()
 
     # Detectar colisão com a parede
-    if snake.head.xcor() > 285 or snake.head.xcor() < -285 or snake.head.ycor() > 285 or snake.head.ycor() < -285:
+    if (
+        snake.head.xcor() > 285
+        or snake.head.xcor() < -285
+        or snake.head.ycor() > 285
+        or snake.head.ycor() < -285
+    ):
         is_game_on = False
 
     # Detectar colisão com com  a cauda

@@ -29,6 +29,7 @@ class Snake:
         s.backward(20)
         self.snakes.append(s)
 
+
     def move(self):
         for snake_num in range(len(self.snakes) - 1, 0, -1):
             cor = self.snakes[snake_num - 1].pos()
