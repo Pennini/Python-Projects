@@ -21,8 +21,8 @@ screen.onkey(snake.down, "Down")
 screen.onkey(snake.left, "Left")
 screen.onkey(snake.right, "Right")
 
-is_game_on = True
-while is_game_on:
+
+while True:
     screen.update()
     time.sleep(0.1)
     snake.move()
@@ -41,12 +41,13 @@ while is_game_on:
         or snake.head.ycor() > 285
         or snake.head.ycor() < -285
     ):
-        is_game_on = False
+        score.reset()
+        snake.reset()
 
     # Detectar colisão com com  a cauda
     for s in snake.snakes[1:]:
         if snake.head.distance(s) < 10:
-            is_game_on = False
-
+            score.reset()
+            snake.reset()
 score.game_over()
 screen.exitonclick()

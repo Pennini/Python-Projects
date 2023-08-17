@@ -29,6 +29,12 @@ class Snake:
         s.backward(20)
         self.snakes.append(s)
 
+    def reset(self):
+        for snake in self.snakes:
+            snake.hideturtle()
+        self.snakes.clear()
+        self.create_snake()
+        self.head = self.snakes[0]
 
     def move(self):
         for snake_num in range(len(self.snakes) - 1, 0, -1):
