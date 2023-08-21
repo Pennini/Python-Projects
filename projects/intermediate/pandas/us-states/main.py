@@ -30,10 +30,7 @@ while is_game_on:
 
     if answer_state == "Exit":
         is_game_on = False
-        not_guessed = []
-        for state in df_states["state"]:
-            if state not in count:
-                not_guessed.append(state)
+        not_guessed = [state for state in df_states["state"] if state not in count]
         not_guessed = pd.DataFrame(not_guessed)
         not_guessed.to_csv("states_not_guessed.csv")
 
