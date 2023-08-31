@@ -46,3 +46,5 @@ while is_game_on:
         turtle.goto(-25,200)
         turtle.write("Congratulations, you've won", align="center", font=["Arial", 30, "normal"])
         is_game_on = False
+
+screen.exitonclick()
