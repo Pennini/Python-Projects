@@ -2,7 +2,26 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import pyperclip
+import json
 
+
+def search_data():
+    try:
+        with open("data.json", "r") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="No Data File Found")
+    else:
+        web = website.get().lower()
+        if web in data:
+            email_search = data[web]["email"]
+            password_search = data[web]["password"]
+            messagebox.showinfo(title=f"{web.title()}", message=f"Email: {email_search}\nPassword: {password_search}")
+            website.delete(0, END)
+            password.delete(0, END)
+            return
+        else:
+            messagebox.showinfo(title=f"Error", message=f"No data found to {web.title()}")
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def password_generator():
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -27,27 +46,38 @@ def password_generator():
 def save_password():
     var = [website, email, password]
 
-    with open("password.txt", "a") as file:
-        info = ""
+    for entry in var:
+        value = entry.get()
+        if not value:
+            messagebox.showinfo(title="Oops", message="Please don't leave any fields empty!")
+            return
+        
+    new_data = {
+        var[0].get().lower(): {
+            "email": var[1].get(),
+            "password": var[2].get()
+        }
+    }
+    
+    is_ok = messagebox.askokcancel(title=var[0].get(), message=f"These are the details entered:\nE-mail: {var[1].get()}\nPassword: {var[2].get()}\nIs it ok to save?")
+
+    if is_ok:
+
+        try:
+            with open("data.json", "r") as file:
+                data = json.load(file)
+                data.update(new_data)
+        except FileNotFoundError:
+            with open("data.json", "w") as file:
+                json.dump(new_data, file, indent=4)
+        else:
+            with open("data.json", "w") as file:
+                json.dump(data, file, indent=4)
         for entry in var:
-            value = entry.get()
-            if not value:
-                messagebox.showinfo(title="Oops", message="Please don't leave any fields empty!")
-                return
-            info += value + " | "
-        info += "\n"
-        
-        
-        is_ok = messagebox.askokcancel(title=var[0].get(), message=f"These are the details entered:\nE-mail: {var[1].get()}\nPassword: {var[2].get()}\nIs it ok to save?")
-
-        if is_ok:
-            file.write(info)
-
-            for entry in var:
-                if entry == email:
-                    continue
-                entry.delete(0, END)
-            var[0].focus()
+            if entry == email:
+                continue
+            entry.delete(0, END)
+        var[0].focus()
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -65,6 +95,9 @@ website_label.grid(column=0, row=1)
 website = Entry(width=52)
 website.focus()
 website.grid(column=1, row=1, columnspan=2)
+
+search = Button(text="Search", command=search_data, width=15)
+search.grid(column=2, row=1, columnspan=1)
 
 email_label = Label(text="Email/Username:")
 email_label.grid(column=0, row=2)
