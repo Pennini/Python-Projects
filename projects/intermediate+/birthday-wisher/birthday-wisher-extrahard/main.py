@@ -16,8 +16,8 @@ import csv
 from tkinter import *
 from tkinter import messagebox
 
-username = "penniniandre@gmail.com"
-password = "bqut pspb uxnz ytao"
+username = ""
+password = ""
 
 current_day = dt.datetime.now().day
 current_month = dt.datetime.now().month
