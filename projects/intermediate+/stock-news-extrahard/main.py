@@ -3,6 +3,7 @@ COMPANY_NAME = "Tesla Inc"
 import sys
 import requests
 import datetime as dt
+from twilio.rest import Client
 
 
 caminho_diretorio = r"C:\Users\Lenovo\Desktop\FEA DEV\fin_quant\curso"
@@ -50,13 +51,14 @@ def get_news(company):
 
     response = requests.get(url)
     response.raise_for_status()
-    data = response.json()
-    print(data)
+    return data = response.json()["articles"][0:3]
+        
 
 
 ## STEP 3: Use https://www.twilio.com
 # Send a separate message with the percentage change and each article's title and description to your phone number.
-
+def send_sms(percentage, news):
+    phone = "+12315359834"
 
 # Optional: Format the SMS message like this:
 """
@@ -70,5 +72,6 @@ Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and 
 """
 
 result, percentage = get_stock(STOCK)
+if result:
+    data = get_news(COMPANY_NAME)
 
-get_news(COMPANY_NAME)
