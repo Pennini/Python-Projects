@@ -53,25 +53,22 @@ def get_news(company):
 
     response = requests.get(url)
     response.raise_for_status()
-    return response.json()["articles"][0:3]
+    return response.json()["articles"][:3]
 
 
 ## STEP 3: Use https://www.twilio.com
 # Send a separate message with the percentage change and each article's title and description to your phone number.
 def send_sms(percentage, news):
+    if percentage > 0:
+        arrow = "🔺"
+    else:
+        arrow = "🔻"
     for info in news:
-        if percentage > 5:
-            message = client.messages.create(
-                from_="+12315359834",
-                body=f"TSLA: 🔺{percentage}%\nHeadline: {info['title']}\nBrief: {info['description']}",
-                to="+5511999001064",
-            )
-        else:
-            message = client.messages.create(
-                from_="+12315359834",
-                body=f"TSLA: 🔻{percentage}%\nHeadline: {info['title']}\nBrief: {info['description']}",
-                to="+5511999001064",
-            )
+        message = client.messages.create(
+            from_="+12315359834",
+            body=f"TSLA: {arrow}{percentage}%\nHeadline: {info['title']}\nBrief: {info['description']}",
+            to="+5511999001064",
+        )
         print(message.sid)
 
 
