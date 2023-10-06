@@ -63,14 +63,13 @@ def send_sms(percentage, news):
         if percentage > 5:
             message = client.messages.create(
                 from_='+12315359834',
-                body=f"TSLA: 🔺{percentage}%\nHeadline: {info['title']}\nBrief: {'description'}",
+                body=f"TSLA: 🔺{percentage}%\nHeadline: {info['title']}\nBrief: {info['description']}",
                 to='+5511999001064'
             )
         else:
-            
             message = client.messages.create(
                 from_='+12315359834',
-                body=f"TSLA: 🔻{percentage}%\nHeadline: {info['title']}\nBrief: {'description'}",
+                body=f"TSLA: 🔻{percentage}%\nHeadline: {info['title']}\nBrief: {info['description']}",
                 to='+5511999001064'
             )
         print(message.sid)
