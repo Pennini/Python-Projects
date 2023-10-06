@@ -11,9 +11,10 @@ sys.path.append(caminho_diretorio)
 
 from secrets_api import ALPHA_VANTAGE_API_TOKEN, NEWS_API_KEY, AUTH_TOKEN
 
-account_sid = 'AC7198fba3c77729aefbe32ff11523179a'
+account_sid = "AC7198fba3c77729aefbe32ff11523179a"
 auth_token = AUTH_TOKEN
 client = Client(account_sid, auth_token)
+
 
 ## STEP 1: Use https://www.alphavantage.co
 # When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
@@ -53,7 +54,6 @@ def get_news(company):
     response = requests.get(url)
     response.raise_for_status()
     return response.json()["articles"][0:3]
-        
 
 
 ## STEP 3: Use https://www.twilio.com
@@ -62,17 +62,18 @@ def send_sms(percentage, news):
     for info in news:
         if percentage > 5:
             message = client.messages.create(
-                from_='+12315359834',
+                from_="+12315359834",
                 body=f"TSLA: 🔺{percentage}%\nHeadline: {info['title']}\nBrief: {info['description']}",
-                to='+5511999001064'
+                to="+5511999001064",
             )
         else:
             message = client.messages.create(
-                from_='+12315359834',
+                from_="+12315359834",
                 body=f"TSLA: 🔻{percentage}%\nHeadline: {info['title']}\nBrief: {info['description']}",
-                to='+5511999001064'
+                to="+5511999001064",
             )
         print(message.sid)
+
 
 # Optional: Format the SMS message like this:
 """
@@ -89,4 +90,3 @@ result, percentage = get_stock(STOCK)
 if result:
     data = get_news(COMPANY_NAME)
     send_sms(percentage, data)
-
