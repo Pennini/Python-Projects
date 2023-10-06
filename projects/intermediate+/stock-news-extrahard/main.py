@@ -9,10 +9,11 @@ from twilio.rest import Client
 caminho_diretorio = r"C:\Users\Lenovo\Desktop\FEA DEV\fin_quant\curso"
 sys.path.append(caminho_diretorio)
 
-from secrets_api import ALPHA_VANTAGE_API_TOKEN, NEWS_API_KEY
+from secrets_api import ALPHA_VANTAGE_API_TOKEN, NEWS_API_KEY, AUTH_TOKEN
 
-url = f"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={STOCK}&interval=5min&apikey=demo"
-
+account_sid = 'AC7198fba3c77729aefbe32ff11523179a'
+auth_token = AUTH_TOKEN
+client = Client(account_sid, auth_token)
 
 ## STEP 1: Use https://www.alphavantage.co
 # When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
@@ -47,18 +48,32 @@ def get_stock(stock: str):
 ## STEP 2: Use https://newsapi.org
 # Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME.
 def get_news(company):
-    url = f"https://newsapi.org/v2/everything?q={company}&from=2023-09-05&sortBy=publishedAt&apiKey=1fdf670c22a443a79b5e76922f3106ea"
+    url = f"https://newsapi.org/v2/everything?q={company}&from=2023-09-05&sortBy=publishedAt&apiKey={NEWS_API_KEY}"
 
     response = requests.get(url)
     response.raise_for_status()
-    return data = response.json()["articles"][0:3]
+    return response.json()["articles"][0:3]
         
 
 
 ## STEP 3: Use https://www.twilio.com
 # Send a separate message with the percentage change and each article's title and description to your phone number.
 def send_sms(percentage, news):
-    phone = "+12315359834"
+    for info in news:
+        if percentage > 5:
+            message = client.messages.create(
+                from_='+12315359834',
+                body=f"TSLA: 🔺{percentage}%\nHeadline: {info['title']}\nBrief: {'description'}",
+                to='+5511999001064'
+            )
+        else:
+            
+            message = client.messages.create(
+                from_='+12315359834',
+                body=f"TSLA: 🔻{percentage}%\nHeadline: {info['title']}\nBrief: {'description'}",
+                to='+5511999001064'
+            )
+        print(message.sid)
 
 # Optional: Format the SMS message like this:
 """
@@ -74,4 +89,5 @@ Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and 
 result, percentage = get_stock(STOCK)
 if result:
     data = get_news(COMPANY_NAME)
+    send_sms(percentage, data)
 
