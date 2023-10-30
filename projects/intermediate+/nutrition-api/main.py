@@ -14,7 +14,7 @@ headers = {
 url = "https://trackapi.nutritionix.com/v2/natural/exercise"
 
 body = {
- "query": "Ran 2 miles", # input("Tell me which exercises you did? "),
+ "query": input("Tell me which exercises you did? "),
  "gender": "male",
  "weight_kg": 74,
  "height_cm": 171,
