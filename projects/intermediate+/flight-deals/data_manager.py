@@ -17,7 +17,7 @@ class DataManager:
         return data
     
     def update_table(self, info):
-        url_put = self.url + f"/{info["id"]}"
+        url_put = self.url + f"/{info['id']}"
         del info["id"]
         body = {
             "price": info
