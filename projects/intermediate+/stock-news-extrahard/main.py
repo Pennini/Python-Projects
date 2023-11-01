@@ -11,7 +11,7 @@ sys.path.append(caminho_diretorio)
 
 from secrets_api import ALPHA_VANTAGE_API_TOKEN, NEWS_API_KEY, AUTH_TOKEN
 
-account_sid = "AC7198fba3c77729aefbe32ff11523179a"
+account_sid = 
 auth_token = AUTH_TOKEN
 client = Client(account_sid, auth_token)
 

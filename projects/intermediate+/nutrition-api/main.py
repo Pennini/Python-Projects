@@ -1,5 +1,5 @@
 import requests
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv
 import os
 import datetime as dt
 
@@ -28,7 +28,7 @@ data = response.json()["exercises"][0]
 url_sheets = "https://api.sheety.co/844515d1462dff6fdd850525984cc085/workoutTracking/workouts"
 
 headers_sheets = {
-    "Authorization": os.getenv("NUTRITION_TOKEN")
+    "Authorization": os.getenv("SHEETS_TOKEN")
 }
 
 row_sheets = {
