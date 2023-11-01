@@ -69,9 +69,9 @@ def send_sms(percentage, news):
         arrow = "🔻"
     for info in news:
         message = client.messages.create(
-            from_="+12315359834",
+            from_= os.getenv("TWILIO_PHONE"),
             body=f"TSLA: {arrow}{percentage}%\nHeadline: {info['title']}\nBrief: {info['description']}",
-            to="+5511999001064",
+            to= os.getenv("MY_PHONE"),
         )
         print(message.sid)
 

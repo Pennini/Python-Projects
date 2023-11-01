@@ -12,8 +12,8 @@ class NotificationManager:
     
     def send_sms(self, flight_data):
         message = client.messages.create(
-            from_="+12315359834",
+            from_= os.getenv("TWILIO_PHONE"),
             body=f"LOW PRICE!\n{flight_data.origin_city} -> {flight_data.destination_city}:\nPrice: {flight_data.price}\nDate:\n    Departure:\n        Local: {flight_data.out_date}\n    Return:\n        Local: {flight_data.return_date}",
-            to="+5511999001064",
+            to= os.getenv("MY_PHONE"),
         )
-        print(message.sid)
+        print(f"{message} send Succesful")
