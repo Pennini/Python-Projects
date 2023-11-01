@@ -4,6 +4,10 @@ import sys
 import requests
 import datetime as dt
 from twilio.rest import Client
+import os
+from dotenv import load_dotenv
+
+load_dotenv("../../../.env")
 
 
 caminho_diretorio = r"C:\Users\Lenovo\Desktop\FEA DEV\fin_quant\curso"
@@ -11,7 +15,7 @@ sys.path.append(caminho_diretorio)
 
 from secrets_api import ALPHA_VANTAGE_API_TOKEN, NEWS_API_KEY, AUTH_TOKEN
 
-account_sid = "AC7198fba3c77729aefbe32ff11523179a"
+account_sid = os.getenv("TWILIO_SID")
 auth_token = AUTH_TOKEN
 client = Client(account_sid, auth_token)
 

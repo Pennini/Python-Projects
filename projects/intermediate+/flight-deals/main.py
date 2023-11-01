@@ -1,16 +1,25 @@
 from data_manager import DataManager
-from flight_data import FlightData
 from flight_search import FlightSearch
 from notification_manager import NotificationManager
-from pprint import pprint
+import datetime as dt
+
+ORIGIN_CITY_IATA = "GRU"
 
 data = DataManager()
-fg_data = FlightData()
+fg_search = FlightSearch()
+notification = NotificationManager()
 
 sheet_data = data.get_data()
 
-for dt in sheet_data:
-    dt = fg_data.get_iata(dt)
-    suc = data.update_table(dt)
+date_from = dt.datetime.now() + dt.timedelta(30)
+date_to = date_from + dt.timedelta(6 * 30)
 
-pprint(sheet_data)
+
+for row in sheet_data:
+    if row["iataCode"] == "":
+        row["iataCode"] = fg_search.get_iata(row)
+        data.update_table(row)
+    fg_data = fg_search.get_price(row, ORIGIN_CITY_IATA, date_from, date_to)
+    if fg_data:
+        notification.send_sms(fg_data)
+

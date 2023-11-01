@@ -1,18 +1,12 @@
-import requests as req
-import os
-from dotenv import load_dotenv
-
 class FlightData:
-    def __init__(self) -> None:
-        self.url = "https://api.tequila.kiwi.com/"
-        self.headers = {
-            "apikey": os.getenv("FLIGHT_API")
-        }
+    def __init__(self, price, origin_city, origin_airport, destination_city, destination_airport, out_date, return_date):
+        self.price = price
+        self.origin_city = origin_city
+        self.origin_airport = origin_airport
+        self.destination_city = destination_city
+        self.destination_airport = destination_airport
+        self.out_date = out_date
+        self.return_date = return_date
 
-    def get_iata(self, flight):
-        url_iata = self.url + "/locations/query"
-        body = {
-            "term": flight["city"]
-        }
-        flight["iataCode"] = "BIFE ACEBOLADO"
-        return flight
+    def __str__(self) -> str:
+        return f"{self.origin_city} -> {self.destination_city}:\nPrice: {self.price}\nDate:\n    Departure:\n        Local: {self.out_date}\n    Return:\n        Local: {self.return_date}"
