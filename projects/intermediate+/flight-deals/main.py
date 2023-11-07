@@ -14,6 +14,7 @@ sheet_data = data.get_data()
 date_from = dt.datetime.now() + dt.timedelta(30)
 date_to = date_from + dt.timedelta(6 * 30)
 
+emails = data.get_emails()
 
 for row in sheet_data:
     if row["iataCode"] == "":
@@ -21,5 +22,6 @@ for row in sheet_data:
         data.update_table(row)
     fg_data = fg_search.get_price(row, ORIGIN_CITY_IATA, date_from, date_to)
     if fg_data:
-        notification.send_sms(fg_data)
+        notification.send_emails(fg_data, emails)
+        # notification.send_sms(fg_data)
 
