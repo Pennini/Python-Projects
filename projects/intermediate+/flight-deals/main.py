@@ -21,5 +21,5 @@ for row in sheet_data:
         data.update_table(row)
     fg_data = fg_search.get_price(row, ORIGIN_CITY_IATA, date_from, date_to)
     if fg_data:
-        notification.send_sms(fg_data)
+        # notification.send_sms(fg_data)
 
