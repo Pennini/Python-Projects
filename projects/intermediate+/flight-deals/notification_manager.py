@@ -1,16 +1,17 @@
 import os
 from dotenv import load_dotenv
-try:
-    from twilio.rest import Client
-    client = Client(account_sid, auth_token)
-except ModuleNotFoundError:
-    pass
 import smtplib
 
 load_dotenv("../../../.env")
 
 account_sid = os.getenv("TWILIO_SID")
 auth_token = os.getenv("TWILIO_TOKEN")
+
+try:
+    from twilio.rest import Client
+    client = Client(account_sid, auth_token)
+except ModuleNotFoundError:
+    pass
 
 class NotificationManager:
     
